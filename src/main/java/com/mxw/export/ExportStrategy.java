@@ -94,7 +94,7 @@ public class ExportStrategy {
                     //获取总数量调整count的值,重置sectionLength
                     long totalCount = exportInterface.getTotalCount(exportQueryDBParam);
                     long sectionLengthTemp = (long) Math.ceil(dif / totalCount);
-                    if (sectionLengthTemp < sectionLength) {
+                    if (sectionLengthTemp > sectionLength) {
                         sectionLength = sectionLengthTemp;
                     }
 
