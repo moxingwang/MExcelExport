@@ -119,7 +119,7 @@ public class ExportStrategy {
                             exportKeySections.add(keySection);
                         }
 
-                        ExportKeySection keySection = new ExportKeySection(minId, maxId + 1 - sectionCount * (sectionLength - 1), sectionLength);
+                        ExportKeySection keySection = new ExportKeySection(minId, maxId + 1 - sectionCount * (sectionLength - 1), sectionCount);
                         exportKeySections.add(keySection);
                     }
                 }
