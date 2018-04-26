@@ -100,7 +100,7 @@ public class ExportStrategy {
 
                     long sectionCount = (long) Math.ceil(dif / sectionLength);
                     while (sectionCount > 30) {
-                        sectionLength = 30;
+                        sectionLength = sectionLength << 1;
                         sectionCount = (long) Math.ceil(dif / sectionLength);
                     }
 
@@ -115,7 +115,7 @@ public class ExportStrategy {
                         exportKeySections.add(keySection);
                     } else {
                         for (long i = sectionCount - 1; i > 0; i--) {
-                            ExportKeySection keySection = new ExportKeySection(maxId + 1 - sectionLength * (sectionCount - i), maxId + 1 - sectionLength * (sectionCount - i - 1), sectionCount - i);
+                            ExportKeySection keySection = new ExportKeySection(maxId + 1 - sectionLength * (sectionCount - i), maxId + 1 - sectionLength * ( sectionCount - i - 1), sectionCount - i);
                             exportKeySections.add(keySection);
                         }
 
