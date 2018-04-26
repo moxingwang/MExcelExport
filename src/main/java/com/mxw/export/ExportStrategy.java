@@ -115,11 +115,11 @@ public class ExportStrategy {
                         exportKeySections.add(keySection);
                     } else {
                         for (long i = sectionCount - 1; i > 0; i--) {
-                            ExportKeySection keySection = new ExportKeySection(maxId + 1 - sectionCount * (sectionLength - i), maxId + 1 - sectionCount * (sectionLength - i - 1), sectionCount - i);
+                            ExportKeySection keySection = new ExportKeySection(maxId + 1 - sectionLength * (sectionCount - i), maxId + 1 - sectionLength * ( sectionCount - i - 1), sectionCount - i);
                             exportKeySections.add(keySection);
                         }
 
-                        ExportKeySection keySection = new ExportKeySection(minId, maxId + 1 - sectionCount * (sectionLength - 1), sectionCount);
+                        ExportKeySection keySection = new ExportKeySection(minId, maxId + 1 - sectionLength * (sectionCount - 1), sectionCount);
                         exportKeySections.add(keySection);
                     }
                 }
