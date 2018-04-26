@@ -30,7 +30,7 @@ public class ExportStrategy {
 
     public ExportResultDTO exportData(IExportInterface exportInterface) {
         //防止参数错误查询数据过大
-        if(sectionLength>MAX_LENGTH){
+        if (sectionLength > MAX_LENGTH) {
             throw new IllegalArgumentException("查询区间过大");
         }
 
@@ -93,7 +93,10 @@ public class ExportStrategy {
                 } else {
                     //获取总数量调整count的值,重置sectionLength
                     long totalCount = exportInterface.getTotalCount(exportQueryDBParam);
-                    sectionLength = (long) Math.ceil(dif / totalCount);
+                    long sectionLengthTemp = (long) Math.ceil(dif / totalCount);
+                    if (sectionLengthTemp < sectionLength) {
+                        sectionLength = sectionLengthTemp;
+                    }
 
                     long sectionCount = (long) Math.ceil(dif / sectionLength);
                     while (sectionCount > 30) {
