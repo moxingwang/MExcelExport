@@ -16,7 +16,7 @@ public class ExportStrategy {
     private static final int MAX_LENGTH = 5000;
 
     private ExportQueryParam queryParam;
-    private int sectionLength = 2000;
+    private long sectionLength = 2000;
     private String sort;
 
     private ExportStrategy() {
@@ -86,6 +86,10 @@ public class ExportStrategy {
 
                     exportDataSectionTail.setOrder(2);
                 } else {
+                    //获取总数量调整count的值,重置sectionLength
+                    long totalCount = exportInterface.getTotalCount(exportQueryDBParam);
+                    sectionLength = (long) Math.ceil(totalCount / sectionLength);
+
                     long sectionCount = (long) Math.ceil(dif / sectionLength);
                     while (sectionCount > 30) {
                         sectionLength = sectionLength << 1;

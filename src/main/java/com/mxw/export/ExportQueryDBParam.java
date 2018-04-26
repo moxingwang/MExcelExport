@@ -9,14 +9,14 @@ public class ExportQueryDBParam<T> implements Serializable {
     private long keyBegin;
     private long keyEnd;
     private String sort;
-    private int limit;
+    private long limit;
 
     private T parameter;
 
     private ExportQueryDBParam() {
     }
 
-    protected ExportQueryDBParam(long keyBegin, long keyEnd, String sort, int limit, T parameter) {
+    protected ExportQueryDBParam(long keyBegin, long keyEnd, String sort, long limit, T parameter) {
         this.keyBegin = keyBegin;
         this.keyEnd = keyEnd;
         this.sort = sort;
@@ -56,11 +56,11 @@ public class ExportQueryDBParam<T> implements Serializable {
         this.sort = sort;
     }
 
-    public int getLimit() {
+    public long getLimit() {
         return limit;
     }
 
-    public void setLimit(int limit) {
+    public void setLimit(long limit) {
         this.limit = limit;
     }
 }
