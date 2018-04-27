@@ -99,11 +99,10 @@ public class ExportStrategy {
                     }
 
                     long sectionCount = (long) Math.ceil(dif / sectionLength);
-                    while (sectionCount > 30) {
-                        sectionLength = sectionLength << 1;
-                        sectionCount = (long) Math.ceil(dif / sectionLength);
+                    if (sectionCount > 30) {
+                        sectionCount = 30;
+                        sectionLength = (long) Math.ceil(dif / sectionCount);
                     }
-
 
                     if ("ASC".equals(sort)) {
                         for (long i = 1; i < sectionCount - 1; i++) {
@@ -115,7 +114,7 @@ public class ExportStrategy {
                         exportKeySections.add(keySection);
                     } else {
                         for (long i = sectionCount - 1; i > 0; i--) {
-                            ExportKeySection keySection = new ExportKeySection(maxId + 1 - sectionLength * (sectionCount - i), maxId + 1 - sectionLength * ( sectionCount - i - 1), sectionCount - i);
+                            ExportKeySection keySection = new ExportKeySection(maxId + 1 - sectionLength * (sectionCount - i), maxId + 1 - sectionLength * (sectionCount - i - 1), sectionCount - i);
                             exportKeySections.add(keySection);
                         }
 
