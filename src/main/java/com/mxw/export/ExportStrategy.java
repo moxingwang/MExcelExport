@@ -127,6 +127,8 @@ public class ExportStrategy {
             exportDataSectionTail.setDataList(exportDataListTail);
             exportDataSections.add(exportDataSectionTail);
         } else {
+            //防止计算区间超大，这里需要注意
+            exportQueryDBParam.setLimit(MAX_LENGTH);
             List<ExportData> exportDataList = exportInterface.getData(exportQueryDBParam);
 
             ExportDataSection exportDataSection = new ExportDataSection(exportDataList, queryParam.getOrder());
