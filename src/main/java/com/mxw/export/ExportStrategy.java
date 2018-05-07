@@ -40,7 +40,7 @@ public class ExportStrategy {
         ExportQueryDBParam exportQueryDBParam = new ExportQueryDBParam(0, 0, sort, sectionLength, queryParam.getParameter());
 
         //如果是第一次导出
-        if (queryParam.getNextId() == 0) {
+        if (queryParam.getOrder() == 0) {
             ExportDataSection exportDataSectionHeader = new ExportDataSection();
             ExportDataSection exportDataSectionTail = new ExportDataSection();
 
@@ -79,16 +79,16 @@ public class ExportStrategy {
             } else if ("ASC".equals(sort) && tailFirstId < headerLastId) {
                 exportDataListTail = exportDataListTail.stream().filter(p -> p.getId() >= headerLastId).collect(Collectors.toList());
             } else {
-                exportResultDTO.setNextId(exportDataListHeader.get(exportDataListHeader.size() - 1).getId());
+                exportResultDTO.setOrder(exportDataListHeader.get(exportDataListHeader.size() - 1).getId());
             }
             exportDataSectionTail.setOrder(exportDataListTail.get(0).getId());
             exportDataSectionTail.setDataList(exportDataListTail);
             exportDataSections.add(exportDataSectionTail);
         } else {
             if ("DESC".equals(sort)) {
-                exportQueryDBParam.setKeyEnd(queryParam.getNextId());
+                exportQueryDBParam.setKeyEnd(queryParam.getOrder());
             } else {
-                exportQueryDBParam.setKeyBegin(queryParam.getNextId());
+                exportQueryDBParam.setKeyBegin(queryParam.getOrder());
             }
             List<ExportData> exportDataList = exportInterface.getData(exportQueryDBParam);
 
@@ -98,11 +98,11 @@ public class ExportStrategy {
                     final Long lastId = exportDataList.get(0).getId();
                     exportDataList = exportDataList.stream().filter(p -> !p.getId().equals(lastId)).collect(Collectors.toList());
                 }
-                exportResultDTO.setNextId(exportDataList.get(exportDataList.size() - 1).getId());
+                exportResultDTO.setOrder(exportDataList.get(exportDataList.size() - 1).getId());
             } else {
-                exportResultDTO.setNextId(-1L);
+                exportResultDTO.setOrder(-1L);
             }
-            ExportDataSection exportDataSection = new ExportDataSection(exportDataList, exportResultDTO.getNextId());
+            ExportDataSection exportDataSection = new ExportDataSection(exportDataList, exportResultDTO.getOrder());
 
             exportDataSections.add(exportDataSection);
         }

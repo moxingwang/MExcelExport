@@ -9,19 +9,19 @@ import java.util.List;
 public class ExportResultDTO implements Serializable {
 
     private List<ExportDataSection> data;
-    private Long nextId = -1L;
+    private Long order = -1L;
 
-    public ExportResultDTO(List<ExportDataSection> data, Long nextId) {
+    public ExportResultDTO(List<ExportDataSection> data, Long order) {
         this.data = data;
-        this.nextId = nextId;
+        this.order = order;
     }
 
-    public Long getNextId() {
-        return nextId;
+    public Long getOrder() {
+        return order;
     }
 
-    public void setNextId(Long nextId) {
-        this.nextId = nextId;
+    public void setOrder(Long order) {
+        this.order = order;
     }
 
     public List<ExportDataSection> getData() {
