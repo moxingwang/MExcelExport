@@ -11,7 +11,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.mxw.export</groupId>
-    <artifactId>MExcelExport</artifactId>
+    <artifactId>excel-export</artifactId>
     <version>1.0.0.RELEASE</version>
 
     <build>
