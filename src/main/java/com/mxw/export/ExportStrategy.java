@@ -35,7 +35,7 @@ public class ExportStrategy {
         }
 
         List<ExportDataSection> exportDataSections = new ArrayList<>();
-        ExportResultDTO exportResultDTO = new ExportResultDTO(exportDataSections, -1L);
+        ExportResultDTO exportResultDTO = new ExportResultDTO(exportDataSections, -1L, sort);
 
         ExportQueryDBParam exportQueryDBParam = new ExportQueryDBParam(0, 0, sort, sectionLength, queryParam.getParameter());
 
