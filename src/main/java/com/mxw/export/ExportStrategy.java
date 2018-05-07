@@ -79,7 +79,7 @@ public class ExportStrategy {
             } else if ("ASC".equals(sort) && tailFirstId < headerLastId) {
                 exportDataListTail = exportDataListTail.stream().filter(p -> p.getId() >= headerLastId).collect(Collectors.toList());
             } else {
-                exportResultDTO.setOrder(exportDataListHeader.get(exportDataListHeader.size() - 1).getId());
+                exportResultDTO.setNextOrder(exportDataListHeader.get(exportDataListHeader.size() - 1).getId());
             }
             exportDataSectionTail.setOrder(exportDataListTail.get(0).getId());
             exportDataSectionTail.setDataList(exportDataListTail);
@@ -98,11 +98,11 @@ public class ExportStrategy {
                     final Long lastId = exportDataList.get(0).getId();
                     exportDataList = exportDataList.stream().filter(p -> !p.getId().equals(lastId)).collect(Collectors.toList());
                 }
-                exportResultDTO.setOrder(exportDataList.get(exportDataList.size() - 1).getId());
+                exportResultDTO.setNextOrder(exportDataList.get(exportDataList.size() - 1).getId());
             } else {
-                exportResultDTO.setOrder(-1L);
+                exportResultDTO.setNextOrder(-1L);
             }
-            ExportDataSection exportDataSection = new ExportDataSection(exportDataList, exportResultDTO.getOrder());
+            ExportDataSection exportDataSection = new ExportDataSection(exportDataList, queryParam.getOrder());
 
             exportDataSections.add(exportDataSection);
         }
