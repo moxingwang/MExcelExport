@@ -40,7 +40,7 @@ public class ExportStrategy {
         ExportQueryDBParam exportQueryDBParam = new ExportQueryDBParam(0, 0, sort, sectionLength, queryParam.getParameter());
 
         //如果是第一次导出
-        if (queryParam.getOrder() <= 0) {
+        if (queryParam.getNextId() == 0) {
             ExportDataSection exportDataSectionHeader = new ExportDataSection();
             ExportDataSection exportDataSectionTail = new ExportDataSection();
 
@@ -91,6 +91,7 @@ public class ExportStrategy {
                 exportQueryDBParam.setKeyBegin(queryParam.getNextId());
             }
             List<ExportData> exportDataList = exportInterface.getData(exportQueryDBParam);
+
             if (null != exportDataList && !exportDataList.isEmpty()) {
                 if (exportDataList.size() >= sectionLength) {
                     //去掉第一个id的数据
@@ -98,8 +99,11 @@ public class ExportStrategy {
                     exportDataList = exportDataList.stream().filter(p -> !p.getId().equals(lastId)).collect(Collectors.toList());
                 }
                 exportResultDTO.setNextId(exportDataList.get(exportDataList.size() - 1).getId());
+            } else {
+                exportResultDTO.setNextId(-1L);
             }
-            ExportDataSection exportDataSection = new ExportDataSection(exportDataList, queryParam.getNextId());
+            ExportDataSection exportDataSection = new ExportDataSection(exportDataList, exportResultDTO.getNextId());
+
             exportDataSections.add(exportDataSection);
         }
 

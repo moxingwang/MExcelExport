@@ -7,8 +7,6 @@ import java.io.Serializable;
  */
 public class ExportQueryParam<T> implements Serializable {
     private long nextId;
-    private int order;
-
     private T parameter;
 
     public T getParameter() {
@@ -27,11 +25,4 @@ public class ExportQueryParam<T> implements Serializable {
         this.nextId = nextId;
     }
 
-    public int getOrder() {
-        return order;
-    }
-
-    public void setOrder(int order) {
-        this.order = order;
-    }
 }
