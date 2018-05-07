@@ -79,9 +79,9 @@ public class ExportStrategy {
             } else if ("ASC".equals(sort) && tailFirstId < headerLastId) {
                 exportDataListTail = exportDataListTail.stream().filter(p -> p.getId() >= headerLastId).collect(Collectors.toList());
             } else {
-                exportResultDTO.setNextId(headerLastId);
+                exportResultDTO.setNextId(exportDataListHeader.get(exportDataListHeader.size() - 1).getId());
             }
-            exportDataSectionTail.setOrder(sectionLength + 1);
+            exportDataSectionTail.setOrder(exportDataListTail.get(0).getId());
             exportDataSectionTail.setDataList(exportDataListTail);
             exportDataSections.add(exportDataSectionTail);
         } else {
@@ -91,7 +91,15 @@ public class ExportStrategy {
                 exportQueryDBParam.setKeyBegin(queryParam.getNextId());
             }
             List<ExportData> exportDataList = exportInterface.getData(exportQueryDBParam);
-            ExportDataSection exportDataSection = new ExportDataSection(exportDataList, queryParam.getOrder());
+            if (null != exportDataList && !exportDataList.isEmpty()) {
+                if (exportDataList.size() >= sectionLength) {
+                    //去掉第一个id的数据
+                    final Long lastId = exportDataList.get(0).getId();
+                    exportDataList = exportDataList.stream().filter(p -> !p.getId().equals(lastId)).collect(Collectors.toList());
+                }
+                exportResultDTO.setNextId(exportDataList.get(exportDataList.size() - 1).getId());
+            }
+            ExportDataSection exportDataSection = new ExportDataSection(exportDataList, queryParam.getNextId());
             exportDataSections.add(exportDataSection);
         }
 
