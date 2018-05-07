@@ -6,8 +6,7 @@ import java.io.Serializable;
  * @author MoXingwang on 2018/4/23.
  */
 public class ExportQueryParam<T> implements Serializable {
-    private long keyBegin;
-    private long keyEnd;
+    private long nextId;
     private int order;
 
     private T parameter;
@@ -20,20 +19,12 @@ public class ExportQueryParam<T> implements Serializable {
         this.parameter = parameter;
     }
 
-    public long getKeyBegin() {
-        return keyBegin;
+    public long getNextId() {
+        return nextId;
     }
 
-    public void setKeyBegin(long keyBegin) {
-        this.keyBegin = keyBegin;
-    }
-
-    public long getKeyEnd() {
-        return keyEnd;
-    }
-
-    public void setKeyEnd(long keyEnd) {
-        this.keyEnd = keyEnd;
+    public void setNextId(long nextId) {
+        this.nextId = nextId;
     }
 
     public int getOrder() {

@@ -9,11 +9,19 @@ import java.util.List;
 public class ExportResultDTO implements Serializable {
 
     private List<ExportDataSection> data;
-    private List<ExportKeySection> keySections;
+    private Long nextId = -1L;
 
-    public ExportResultDTO(List<ExportDataSection> data, List<ExportKeySection> keySections) {
+    public ExportResultDTO(List<ExportDataSection> data, Long nextId) {
         this.data = data;
-        this.keySections = keySections;
+        this.nextId = nextId;
+    }
+
+    public Long getNextId() {
+        return nextId;
+    }
+
+    public void setNextId(Long nextId) {
+        this.nextId = nextId;
     }
 
     public List<ExportDataSection> getData() {
@@ -24,11 +32,5 @@ public class ExportResultDTO implements Serializable {
         this.data = data;
     }
 
-    public List<ExportKeySection> getKeySections() {
-        return keySections;
-    }
 
-    public void setKeySections(List<ExportKeySection> keySections) {
-        this.keySections = keySections;
-    }
 }

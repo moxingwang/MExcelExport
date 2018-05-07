@@ -35,10 +35,9 @@ public class ExportStrategy {
         }
 
         List<ExportDataSection> exportDataSections = new ArrayList<>();
-        List<ExportKeySection> exportKeySections = new ArrayList<>();
-        ExportResultDTO exportResultDTO = new ExportResultDTO(exportDataSections, exportKeySections);
+        ExportResultDTO exportResultDTO = new ExportResultDTO(exportDataSections, -1L);
 
-        ExportQueryDBParam exportQueryDBParam = new ExportQueryDBParam(queryParam.getKeyBegin(), queryParam.getKeyEnd(), sort, sectionLength, queryParam.getParameter());
+        ExportQueryDBParam exportQueryDBParam = new ExportQueryDBParam(0, 0, sort, sectionLength, queryParam.getParameter());
 
         //如果是第一次导出
         if (queryParam.getOrder() <= 0) {
@@ -80,57 +79,18 @@ public class ExportStrategy {
             } else if ("ASC".equals(sort) && tailFirstId < headerLastId) {
                 exportDataListTail = exportDataListTail.stream().filter(p -> p.getId() >= headerLastId).collect(Collectors.toList());
             } else {
-                //计算区间
-                long maxId = tailFirstId > headerLastId ? tailFirstId : headerLastId;
-                long minId = tailFirstId > headerLastId ? headerLastId : tailFirstId;
-
-                long dif = maxId - minId;
-                if (dif <= sectionLength) {
-                    ExportKeySection keySection = new ExportKeySection(minId, maxId, 1);
-                    exportKeySections.add(keySection);
-
-                    exportDataSectionTail.setOrder(2);
-                } else {
-                    //获取总数量调整count的值,重置sectionLength
-                    long totalCount = exportInterface.getTotalCount(exportQueryDBParam);
-                    long sectionLengthTemp = (long) Math.ceil(dif / totalCount);
-                    if (sectionLengthTemp > sectionLength) {
-                        sectionLength = sectionLengthTemp;
-                    }
-
-                    long sectionCount = (long) Math.ceil(dif / sectionLength);
-                    if (sectionCount > 30) {
-                        sectionCount = 30;
-                        sectionLength = (long) Math.ceil(dif / sectionCount);
-                    }
-
-                    if ("ASC".equals(sort)) {
-                        for (long i = 1; i < sectionCount - 1; i++) {
-                            ExportKeySection keySection = new ExportKeySection(i * sectionLength + minId, ((i + 1) * sectionLength + minId), i);
-                            exportKeySections.add(keySection);
-                        }
-
-                        ExportKeySection keySection = new ExportKeySection(sectionCount * sectionLength + minId, maxId + 1, sectionCount);
-                        exportKeySections.add(keySection);
-                    } else {
-                        for (long i = sectionCount - 1; i > 0; i--) {
-                            ExportKeySection keySection = new ExportKeySection(maxId + 1 - sectionLength * (sectionCount - i), maxId + 1 - sectionLength * (sectionCount - i - 1), sectionCount - i);
-                            exportKeySections.add(keySection);
-                        }
-
-                        ExportKeySection keySection = new ExportKeySection(minId, maxId + 1 - sectionLength * (sectionCount - 1), sectionCount);
-                        exportKeySections.add(keySection);
-                    }
-                }
+                exportResultDTO.setNextId(headerLastId);
             }
             exportDataSectionTail.setOrder(sectionLength + 1);
             exportDataSectionTail.setDataList(exportDataListTail);
             exportDataSections.add(exportDataSectionTail);
         } else {
-            //防止计算区间超大，这里需要注意
-            exportQueryDBParam.setLimit(MAX_LENGTH);
+            if ("DESC".equals(sort)) {
+                exportQueryDBParam.setKeyEnd(queryParam.getNextId());
+            } else {
+                exportQueryDBParam.setKeyBegin(queryParam.getNextId());
+            }
             List<ExportData> exportDataList = exportInterface.getData(exportQueryDBParam);
-
             ExportDataSection exportDataSection = new ExportDataSection(exportDataList, queryParam.getOrder());
             exportDataSections.add(exportDataSection);
         }
