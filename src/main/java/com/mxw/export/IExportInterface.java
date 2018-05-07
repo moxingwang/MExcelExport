@@ -11,6 +11,4 @@ public interface IExportInterface<T extends ExportData> {
 
     List<T> getData(ExportQueryDBParam queryParam);
 
-    long getTotalCount(ExportQueryDBParam queryParam);
-
 }
