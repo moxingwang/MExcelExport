@@ -35,7 +35,7 @@ public class ExportStrategy {
         }
 
         List<ExportDataSection> exportDataSections = new ArrayList<>();
-        ExportResultDTO exportResultDTO = new ExportResultDTO(exportDataSections, -1L, -1L, sort);
+        ExportResultDTO exportResultDTO = new ExportResultDTO(exportDataSections, -1L, queryParam.getLastOrder(), sort);
 
         ExportQueryDBParam exportQueryDBParam = new ExportQueryDBParam(0, 0, sort, sectionLength, queryParam.getParameter());
 
@@ -100,8 +100,10 @@ public class ExportStrategy {
                     //去掉第一个id的数据
                     final Long lastId = exportDataList.get(0).getId();
                     exportDataList = exportDataList.stream().filter(p -> !p.getId().equals(lastId)).collect(Collectors.toList());
+                    exportResultDTO.setNextOrder(exportDataList.get(exportDataList.size() - 1).getId());
+                } else {
+                    exportResultDTO.setNextOrder(-1L);
                 }
-                exportResultDTO.setNextOrder(exportDataList.get(exportDataList.size() - 1).getId());
             } else {
                 exportResultDTO.setNextOrder(-1L);
             }
