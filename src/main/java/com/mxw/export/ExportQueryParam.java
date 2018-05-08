@@ -7,7 +7,16 @@ import java.io.Serializable;
  */
 public class ExportQueryParam<T> implements Serializable {
     private long order;
+    private Long lastOrder = -1L;
     private T parameter;
+
+    public Long getLastOrder() {
+        return lastOrder;
+    }
+
+    public void setLastOrder(Long lastOrder) {
+        this.lastOrder = lastOrder;
+    }
 
     public T getParameter() {
         return parameter;

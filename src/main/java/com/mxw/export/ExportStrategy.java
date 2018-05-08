@@ -35,7 +35,7 @@ public class ExportStrategy {
         }
 
         List<ExportDataSection> exportDataSections = new ArrayList<>();
-        ExportResultDTO exportResultDTO = new ExportResultDTO(exportDataSections, -1L, sort);
+        ExportResultDTO exportResultDTO = new ExportResultDTO(exportDataSections, -1L, -1L, sort);
 
         ExportQueryDBParam exportQueryDBParam = new ExportQueryDBParam(0, 0, sort, sectionLength, queryParam.getParameter());
 
@@ -80,15 +80,18 @@ public class ExportStrategy {
                 exportDataListTail = exportDataListTail.stream().filter(p -> p.getId() >= headerLastId).collect(Collectors.toList());
             } else {
                 exportResultDTO.setNextOrder(exportDataListHeader.get(exportDataListHeader.size() - 1).getId());
+                exportResultDTO.setLastOrder(tailFirstId);
             }
             exportDataSectionTail.setOrder(exportDataListTail.get(0).getId());
             exportDataSectionTail.setDataList(exportDataListTail);
             exportDataSections.add(exportDataSectionTail);
         } else {
             if ("DESC".equals(sort)) {
+                exportQueryDBParam.setKeyBegin(queryParam.getLastOrder());
                 exportQueryDBParam.setKeyEnd(queryParam.getOrder());
             } else {
                 exportQueryDBParam.setKeyBegin(queryParam.getOrder());
+                exportQueryDBParam.setKeyEnd(queryParam.getLastOrder());
             }
             List<ExportData> exportDataList = exportInterface.getData(exportQueryDBParam);
 
