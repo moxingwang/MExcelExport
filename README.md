@@ -1,3 +1,3 @@
-## Excel导出
+* 分段获取JSON数据，前端导出Excel。
 
-## [Example](https://github.com/moxingwang/ExcelExport.git)
+* 使用举例[Example](https://github.com/moxingwang/ExcelExport.git)
